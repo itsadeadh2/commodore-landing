@@ -36,11 +36,8 @@ Resources:
             - - !ImportValue 'landing-ecr-export'
               - !Sub ":${Revision}"
           Essential: true
-          Environment:
-            - Name: PORT
-              Value: 3000
           PortMappings:
-            - ContainerPort: 3000
+            - ContainerPort: 80
           LogConfiguration:
             LogDriver: awslogs
             Options:
