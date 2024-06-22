@@ -1,0 +1,12 @@
+/* src/App.css */
+body {
+  background-color: #8A8AF8;
+  color: #8A8AF8;
+  font-family: "C64 Pro Mono", Courier, monospace;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
