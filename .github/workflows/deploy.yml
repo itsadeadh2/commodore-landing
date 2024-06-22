@@ -76,8 +76,8 @@ jobs:
           echo "image_tag=$IMAGE_TAG" 
           echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
-  deploy-gateway:
-    name: Deploy gateway
+  deploy-app:
+    name: Deploy app
     runs-on: ubuntu-latest
     environment: production
     needs: [push-image]
@@ -93,7 +93,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Deploy gateway
+      - name: Deploy app
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: landing-ecs
