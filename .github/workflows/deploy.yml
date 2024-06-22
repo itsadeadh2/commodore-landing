@@ -1,0 +1,120 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          npm i
+          npm test
+
+  deploy-infra:
+    name: Deploy infra
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy ELB
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: landing-elb
+          template: cloudformation/elb.yml
+          no-fail-on-empty-changeset: 1
+
+      - name: Deploy ECR
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: landing-ecr
+          template: cloudformation/ecr.yml
+          no-fail-on-empty-changeset: 1
+
+  push-image:
+    name: Push image to ECR
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [deploy-infra]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+        with:
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+          mask-password: "true"
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-publish
+        shell: bash
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: landing-ecr
+          IMAGE_TAG: ${{ github.run_id }}
+        run: |
+          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
+          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
+          echo "image_tag=$IMAGE_TAG" 
+          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+  deploy-gateway:
+    name: Deploy gateway
+    runs-on: ubuntu-latest
+    environment: production
+    needs: [push-image]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy gateway
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        with:
+          name: landing-ecs
+          template: cloudformation/ecs.yml
+          parameter-overrides: "Revision=${{ github.run_id }}"
+          no-fail-on-empty-changeset: 1
