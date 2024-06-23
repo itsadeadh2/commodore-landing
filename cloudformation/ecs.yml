@@ -61,9 +61,9 @@ Resources:
       NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
-            - !ImportValue public-subnet-1-export
+            - !ImportValue private-subnet-1-export
           SecurityGroups:
-            - !ImportValue securitygroup-export
+            - !ImportValue private-securitygroup-export
           AssignPublicIp: ENABLED
       DeploymentConfiguration:
         MaximumPercent: 100

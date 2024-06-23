@@ -19,7 +19,7 @@ Resources:
         - !ImportValue private-subnet-1-export
         - !ImportValue private-subnet-2-export
       SecurityGroups:
-        - !ImportValue securitygroup-export  # Adjust accordingly
+        - !ImportValue private-securitygroup-export  # Adjust accordingly
       Scheme: internal
       LoadBalancerAttributes:
         - Key: idle_timeout.timeout_seconds
