@@ -1,102 +1,52 @@
-name: Deploy to Amazon ECS
+name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "master" ]
-
-permissions:
-  contents: read
+    branches:
+      - master
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 jobs:
-  deploy-infra:
-    name: Deploy infra
+  build:
+    name: Build Docusaurus
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - uses: actions/checkout@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Deploy ELB
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
         with:
-          name: landing-elb
-          template: cloudformation/elb.yml
-          no-fail-on-empty-changeset: 1
+          node-version: 18
+          cache: npm
 
-      - name: Deploy ECR
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
+      - name: Install dependencies
+        run: npm install --frozen-lockfile
+      - name: Build website
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: landing-ecr
-          template: cloudformation/ecr.yml
-          no-fail-on-empty-changeset: 1
+          path: build
 
-  push-image:
-    name: Push image to ECR
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write # to deploy to Pages
+      id-token: write # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
-    environment: production
-    needs: [deploy-infra]
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v1
-        with:
-          registries: ${{ secrets.AWS_ACCOUNT_ID }}
-          mask-password: "true"
-
-      - name: Build, tag, and push image to Amazon ECR
-        id: build-publish
-        shell: bash
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: landing-ecr
-          IMAGE_TAG: ${{ github.run_id }}
-        run: |
-          docker build -t "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" .
-          docker push "$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-          echo "IMAGE $IMAGE_TAG is pushed to $ECR_REGISTRY/$ECR_REPOSITORY"
-          echo "image_tag=$IMAGE_TAG" 
-          echo "full_image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-
-  deploy-app:
-    name: Deploy app
-    runs-on: ubuntu-latest
-    environment: production
-    needs: [push-image]
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
-
-      - name: Deploy app
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: landing-ecs
-          template: cloudformation/ecs.yml
-          parameter-overrides: "Revision=${{ github.run_id }}"
-          no-fail-on-empty-changeset: 1
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
