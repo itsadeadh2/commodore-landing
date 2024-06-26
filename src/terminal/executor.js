@@ -1,13 +1,14 @@
 // src/useExecuteCommand.js
 import { useDispatch } from 'react-redux';
 import { addCommand, clearCommands } from './commandHistory/commandHistorySlice';
-import { commandHandler, COMMAND_STATUS } from './commandHandler';
+import { commandSelector} from './commandSelector';
+import { COMMAND_STATUS } from './handlers'
 
 const useExecuteCommand = () => {
     const dispatch = useDispatch();
 
-    const executeCommand = (inputText) => {
-        const result = commandHandler(inputText);
+    const executeCommand = async (inputText) => {
+        const result = await commandSelector(inputText);
 
         // Handle result
         if (result.status === COMMAND_STATUS.SUCCESS || result.status === COMMAND_STATUS.FAILURE) {

@@ -6,6 +6,7 @@ import useExecuteCommand from './executor';
 
 
 const Terminal = () => {
+    let executing = false;
     const [inputText, setInputText] = useState('');
     const inputRef = useRef(null);
     const { executeCommand } = useExecuteCommand();
@@ -14,19 +15,29 @@ const Terminal = () => {
 
     useEffect(() => {
         if (hasMounted.current) {
-            return;
+          return;
         }
-        // Focus the input field when the component mounts
-        inputRef.current.focus();
-        executeCommand('help')
+        async function run() {
+
+          // Focus the input field when the component mounts
+          inputRef.current.focus();
+          await executeCommand('help')
+        }
+        run();
         hasMounted.current = true;
 
     }, [executeCommand]);
 
-    const handleKeyPress = (event) => {
+    const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
             // Process the command and get the response
-            executeCommand(inputText);
+            if (executing) {
+              event.preventDefault()
+              return;
+            }
+            executing = true;
+            await executeCommand(inputText);
+            executing = false;
             setInputText('');
             event.preventDefault();
         } else if (event.key === 'Backspace') {
