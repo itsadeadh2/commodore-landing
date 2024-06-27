@@ -13,7 +13,7 @@ export default class AboutHandler extends BaseHandler{
         'Stack: NodeJS, Python, GoLang, React',
         'Additional Tools: Docker, AWS, DEVOPS',
         'Hobbies: Playing retro games',
-        (<span>Linkedin: <a href={"https://www.linkedin.com/in/barbosathiagodev/"} target={"_blank"}>Thiago Barbosa</a></span>)
+        (<span>Linkedin: <a href={"https://www.linkedin.com/in/barbosathiagodev/"} target={"_blank"} rel={"noreferrer"}>Thiago Barbosa</a></span>)
       ]
     )
   }
