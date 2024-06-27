@@ -8,7 +8,8 @@ export default class ContactHandler extends BaseHandler{
   }
 
   handleApiError(error) {
-    let message = error.response?.data?.message;
+    // This is not ideal, need to standardize error messages.
+    let message = error.response?.data?.message || error?.response?.data?.errors?.json?.email[0];
     console.error(error);
     if (!message) {
       message = 'There was an error when requesting contact information. Please try again later.'
