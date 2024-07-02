@@ -37,7 +37,7 @@ export default class ContactHandler extends BaseHandler{
     const action = super.getAction(command);
     if (!action) return this.handleInvalidAction()
     try {
-      const { data } = await this.http.post('/project/email_sender/email', {
+      const { data } = await this.http.post('/contact', {
         email: action
       })
       return new CommandResult(
