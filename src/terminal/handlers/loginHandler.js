@@ -8,7 +8,7 @@ export default class LoginHandler extends BaseHandler{
 
         return new CommandResult(
             COMMAND_STATUS.SUCCESS,
-            [(<span>Click <a href={process.env['API_URL']+'/login'} target={"_blank"} rel={"noreferrer"}>here</a> to login/register with google.</span>)]
+            [(<span>Click <a href={process.env['REACT_APP_API_URL']+'/login'} target={"_blank"} rel={"noreferrer"}>here</a> to login/register with google.</span>)]
         )
     }
 
