@@ -11,6 +11,8 @@ jobs:
   build:
     name: Build Project
     runs-on: ubuntu-latest
+    env:
+      REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
 
     steps:
       - uses: actions/checkout@v4
@@ -25,9 +27,6 @@ jobs:
         run: npm install --frozen-lockfile
       - name: Build website
         run: npm run build
-
-      - name: Set environment variables
-        run: echo "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}" >> .env
 
       - name: Upload Build Artifact
         uses: actions/upload-pages-artifact@v3
