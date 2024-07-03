@@ -1,7 +1,7 @@
 {
   "name": "commodore-landing",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "homepage": "https://itsadeadh2.github.io/commodore-landing/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",

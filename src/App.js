@@ -8,7 +8,7 @@ import StoreProvider from './terminal/commandHistory/store'
 
 function App() {
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <div className="App">
           <StoreProvider>
             <Routes>
