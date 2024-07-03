@@ -8,16 +8,14 @@ import StoreProvider from './terminal/commandHistory/store'
 
 function App() {
   return (
-    <Router basename={process.env.PUBLIC_URL}>
-      <div className="App">
-          <StoreProvider>
-            <Routes>
-              <Route path="/callback" element={<Callback/>} />
-              <Route path="/" exact element={<Terminal/>} />
-            </Routes>
-          </StoreProvider>
-      </div>
-    </Router>
+    <div className="App">
+        <StoreProvider>
+          <Routes>
+            <Route path="/callback" element={<Callback/>} />
+            <Route path="/" exact element={<Terminal/>} />
+          </Routes>
+        </StoreProvider>
+    </div>
   );
 }
 
