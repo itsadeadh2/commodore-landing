@@ -5,6 +5,7 @@ import ClearHandler from './clearHandler'
 import AboutHandler from './aboutHandler'
 import ProjectsHandler from "./projectsHandler";
 import CommodoreHandler from "./commodoreHandler";
+import LoginHandler from './loginHandler'
 class CommandResult {
   status = ''
   response = []
@@ -30,5 +31,6 @@ export {
   ClearHandler,
   AboutHandler,
   ProjectsHandler,
-  CommodoreHandler
+  CommodoreHandler,
+  LoginHandler
 }

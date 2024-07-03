@@ -2,10 +2,6 @@ import http from "../../clients/http";
 import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 
 export default class ContactHandler extends BaseHandler{
-  constructor() {
-    super();
-    this.http = http;
-  }
 
   handleApiError(error) {
     // This is not ideal, need to standardize error messages.
@@ -37,7 +33,7 @@ export default class ContactHandler extends BaseHandler{
     const action = super.getAction(command);
     if (!action) return this.handleInvalidAction()
     try {
-      const { data } = await this.http.post('/contact', {
+      const { data } = await http.post('/api/contact', {
         email: action
       })
       return new CommandResult(

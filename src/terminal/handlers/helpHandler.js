@@ -8,6 +8,7 @@ import {
   AboutHandler,
   ProjectsHandler,
   CommodoreHandler,
+  LoginHandler
 } from "."
 
 export default class HelpHandler extends BaseHandler{
@@ -26,7 +27,8 @@ export default class HelpHandler extends BaseHandler{
         AboutHandler.help(),
         ProjectsHandler.help(),
         HelpHandler.help(),
-        CommodoreHandler.help()
+        CommodoreHandler.help(),
+        LoginHandler.help()
       ]
     )
   }

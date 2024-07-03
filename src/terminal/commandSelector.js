@@ -9,6 +9,7 @@ import {
     AboutHandler,
     ProjectsHandler,
     CommodoreHandler,
+    LoginHandler
 } from "./handlers"
 
 export const commandSelector = async (command) => {
@@ -20,7 +21,8 @@ export const commandSelector = async (command) => {
         about: AboutHandler,
         clear: ClearHandler,
         contact: ContactHandler,
-        commodore: CommodoreHandler
+        commodore: CommodoreHandler,
+        login: LoginHandler
     }
     const commandHandler = commandHandlersMapping[rootCommand];
     if (!commandHandler) {

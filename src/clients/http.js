@@ -2,11 +2,12 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'https://itsadeadh2.com/api', // Replace with your base URL
+  baseURL: process.env['API_URL'],
   timeout: 7000, // Timeout after 1 second
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true
 });
 
 export default axiosInstance;
