@@ -10,9 +10,17 @@ export default class CommodoreHandler extends BaseHandler{
       [
         '** Commodore Landing **',
         '-',
-        (<span>Besides looking A E S T H E T I C, this project is also a full blown microservices system. Behind the simplicity of this page, Commodore Landing makes use of an API Gateway and multiple other services such as workers, REST APIs, queues and lambda functions to deliver the experience you're having (pretty cool huh?) All the services are deployed on AWS and available in my GitHub, and if you want more details just click <a href={"https://itsadeadh2.github.io/commodore-docs"} target={"_blank"} rel={"noreferrer"}>here.</a></span>),
+        (
+          <span>
+            This project doesn't just look A E S T H E T I C, it's also a full-fledged system.
+            Behind this simple page, Commodore Landing uses a REST API and a bunch of services like workers,
+            queues, and lambda functions to give you this awesome experience.
+            All the services are deployed on AWS and you can check them out on my GitHub.
+            If you want more details, just click <a href="https://itsadeadh2.github.io/commodore-docs" target="_blank" rel="noreferrer">here.</a>
+          </span>
+        ),
         '-',
-        'See ya'
+        'See ya!'
       ]
     )
   }

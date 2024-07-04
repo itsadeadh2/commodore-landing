@@ -3,6 +3,10 @@ import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 
 export default class ContactHandler extends BaseHandler{
 
+  actionsMapping = {
+    '': this.handleEmptyAction.bind(this),
+  }
+
   handleApiError(error) {
     // This is not ideal, need to standardize error messages.
     let message = error.response?.data?.message || error?.response?.data?.errors?.json?.email[0];
@@ -16,25 +20,24 @@ export default class ContactHandler extends BaseHandler{
     )
   }
 
-  handleInvalidAction() {
+  handleEmptyAction() {
     return new CommandResult(
-      COMMAND_STATUS.FAILURE,
+      COMMAND_STATUS.SUCCESS,
       [
-        'INVALID USAGE - Use "contact <email>"',
-        'e.g: contact foo@bar.com'
+        'Here is my basic contact information:',
+        (<span>E-Mail: <a href="mailto:itsadeadh2@gmail.com">itsadeadh2@gmail.com</a></span>),
+        (<span>GitHub: <a href="https://github.com/itsadeadh2" target="_blank" rel="noreferrer">https://github.com/itsadeadh2</a></span>),
+        (<span>LinkedIn: <a href="https://www.linkedin.com/in/barbosathiagodev/" target="_blank" rel="noreferrer">https://www.linkedin.com/in/barbosathiagodev/</a></span>),
+        (<br/>),
+        (<span>For more information, such as WhatsApp and Resume, please use <strong>"contact youremail@email.com"</strong></span>),
       ]
     )
   }
 
-  async handle(command){
-    const result = super.handle(command);
-    if (result) return result;
-
-    const action = super.getAction(command);
-    if (!action) return this.handleInvalidAction()
+  async handleEmailAction(email) {
     try {
       const { data } = await http.post('/api/contact', {
-        email: action
+        email: email
       })
       return new CommandResult(
         COMMAND_STATUS.SUCCESS,
@@ -43,6 +46,15 @@ export default class ContactHandler extends BaseHandler{
     } catch (error) {
       return this.handleApiError(error);
     }
+  }
+
+  async handle(command){
+    const result = super.handle(command);
+    if (result) return result;
+
+    const action = super.getAction(command);
+    let actionHandle = this.actionsMapping[action] || this.handleEmailAction.bind(this);
+    return actionHandle(action);
   }
 
   static help(command) {
