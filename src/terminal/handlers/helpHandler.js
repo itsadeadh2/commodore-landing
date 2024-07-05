@@ -14,6 +14,7 @@ import {
 export default class HelpHandler extends BaseHandler{
 
   static context = 'help'
+  acceptsOneLiners = false
 
   async handle(command){
     const result = super.handle(command);

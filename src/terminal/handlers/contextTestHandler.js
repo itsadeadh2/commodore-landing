@@ -3,6 +3,8 @@ import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 export default class ContextTestHandler extends BaseHandler{
   static context = 'context'
 
+  acceptsOneLiners = false
+
   actionsMapping = {
     '': this.handleUnknownAction.bind(this),
     'hello': this.handleHelloAction.bind(this),
@@ -45,8 +47,7 @@ export default class ContextTestHandler extends BaseHandler{
       COMMAND_STATUS.SUCCESS,
       [
         'Sorry, cant understand what you said :('
-      ],
-      ContextTestHandler.context
+      ]
     )
   }
 
