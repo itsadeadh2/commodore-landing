@@ -14,7 +14,8 @@ export default class ContextTestHandler extends BaseHandler{
     return new CommandResult(
       COMMAND_STATUS.SUCCESS,
       [
-        'Hi there, lets talk:)'
+        'This is a work in progress functionality',
+        'if you entered here by mistake just use "exit" to return to the main menu',
       ],
       ContextTestHandler.context
     )

@@ -32,7 +32,7 @@ export default class HelpHandler extends BaseHandler{
         HelpHandler.help(),
         CommodoreHandler.help(),
         LoginHandler.help(),
-        ContextTestHandler.help()
+        //ContextTestHandler.help()
       ]
     )
   }
