@@ -6,12 +6,16 @@ import AboutHandler from './aboutHandler'
 import ProjectsHandler from "./projectsHandler";
 import CommodoreHandler from "./commodoreHandler";
 import LoginHandler from './loginHandler'
+import ContextTestHandler from './contextTestHandler'
+
 class CommandResult {
   status = ''
   response = []
-  constructor(status, response) {
+  context = ''
+  constructor(status, response, context = 'main') {
     this.status = status;
     this.response = response;
+    this.context = context
   }
 }
 
@@ -32,5 +36,6 @@ export {
   AboutHandler,
   ProjectsHandler,
   CommodoreHandler,
-  LoginHandler
+  LoginHandler,
+  ContextTestHandler
 }

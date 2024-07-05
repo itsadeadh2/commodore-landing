@@ -2,6 +2,8 @@ import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 
 export default class LoginHandler extends BaseHandler{
 
+    static context = 'login'
+
     async handle(command){
         const result = super.handle(command);
         if (result) return result;

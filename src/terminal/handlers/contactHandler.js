@@ -3,6 +3,8 @@ import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 
 export default class ContactHandler extends BaseHandler{
 
+  static context = 'contact'
+
   actionsMapping = {
     '': this.handleEmptyAction.bind(this),
   }

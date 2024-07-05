@@ -2,6 +2,8 @@ import {COMMAND_STATUS, CommandResult, BaseHandler} from '.'
 
 export default class ClearHandler extends BaseHandler{
 
+  static context = 'clear'
+
   async handle(command){
     const result = super.handle(command);
     if (result) return result;

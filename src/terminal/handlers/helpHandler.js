@@ -8,10 +8,13 @@ import {
   AboutHandler,
   ProjectsHandler,
   CommodoreHandler,
-  LoginHandler
+  LoginHandler,
+  ContextTestHandler
 } from "."
 
 export default class HelpHandler extends BaseHandler{
+
+  static context = 'help'
 
   async handle(command){
     const result = super.handle(command);
@@ -28,7 +31,8 @@ export default class HelpHandler extends BaseHandler{
         ProjectsHandler.help(),
         HelpHandler.help(),
         CommodoreHandler.help(),
-        LoginHandler.help()
+        LoginHandler.help(),
+        ContextTestHandler.help()
       ]
     )
   }
