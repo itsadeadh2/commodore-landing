@@ -18,7 +18,7 @@ const useExecuteCommand = () => {
         if (commandParts.length > 1) {
             return commandParts.slice(1).join(' ');
         }
-        return '';
+        return command;
     };
 
     const executeCommand = async (inputText, context = 'main') => {
@@ -45,7 +45,7 @@ const useExecuteCommand = () => {
         }
 
         // Check if the command is a composite (contains both a root command and action)
-        const isCompositeCommand = !!action && !!rootCommand;
+        const isCompositeCommand = action !== rootCommand;
 
         // Handle one-liner commands if the handler accepts them
         if (handler.acceptsOneLiners && isCompositeCommand) {
@@ -54,7 +54,7 @@ const useExecuteCommand = () => {
 
         // Handle commands without actions
         if (!isCompositeCommand) {
-            result = await handler.handle(normalizedCommand);
+            result = await handler.handle(rootCommand);
         }
 
         // Dispatch the command and its response to the command history

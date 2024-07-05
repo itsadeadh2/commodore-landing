@@ -4,9 +4,7 @@ export default class CommodoreHandler extends BaseHandler{
 
   static context = 'commodore'
 
-  async handle(command){
-    const result = super.handle(command);
-    if (result) return result;
+  async handle(action){
 
     return new CommandResult(
       COMMAND_STATUS.SUCCESS,

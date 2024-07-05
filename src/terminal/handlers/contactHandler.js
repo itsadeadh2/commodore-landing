@@ -7,7 +7,7 @@ export default class ContactHandler extends BaseHandler{
   acceptsOneLiners = true
 
   actionsMapping = {
-    '': this.handleEmptyAction.bind(this),
+    'contact': this.handleEmptyAction.bind(this),
   }
 
   handleApiError(error) {
@@ -51,11 +51,7 @@ export default class ContactHandler extends BaseHandler{
     }
   }
 
-  async handle(command){
-    const result = super.handle(command);
-    if (result) return result;
-
-    const action = super.getAction(command);
+  async handle(action){
     let actionHandle = this.actionsMapping[action] || this.handleEmailAction.bind(this);
     return actionHandle(action);
   }
