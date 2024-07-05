@@ -1,7 +1,7 @@
 import {CommandResult, COMMAND_STATUS} from '.'
 export default class BaseHandler {
 
-  acceptsOneLiners = true
+  acceptsOneLiners = false
 
   getAction (command) {
     const root = this.getCommandRoot(command)

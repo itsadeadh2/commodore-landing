@@ -54,7 +54,7 @@ const useExecuteCommand = () => {
 
         // Handle commands without actions
         if (!isCompositeCommand) {
-            result = await handler.handle(rootCommand);
+            result = await handler.handle(normalizedCommand);
         }
 
         // Dispatch the command and its response to the command history
