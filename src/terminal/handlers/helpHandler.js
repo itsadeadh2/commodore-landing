@@ -8,8 +8,7 @@ import {
   AboutHandler,
   ProjectsHandler,
   CommodoreHandler,
-  LoginHandler,
-  ContextTestHandler
+  LoginHandler
 } from "."
 
 export default class HelpHandler extends BaseHandler{
