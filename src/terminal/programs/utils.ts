@@ -8,7 +8,9 @@ const isYes = (value: string): boolean => {
     return firstLetter.toLowerCase() === 'y'
 }
 
-export default {
+const utilities = {
     isValidEmail,
     isYes
 }
+
+export default utilities;
