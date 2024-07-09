@@ -88,7 +88,7 @@ export default class Register extends BaseClass {
             return
         }
         try {
-            let { data } = await this.http.post('/api/user/register', {
+            await this.http.post('/api/user/register', {
                 name: this.givenName,
                 email: this.givenEmail,
                 password: this.givenPassword
@@ -97,7 +97,7 @@ export default class Register extends BaseClass {
             await this.setProgram(Main.name);
         } catch (error) {
             if (axios.isAxiosError(error)) {
-                if (error?.response?.status == 409) {
+                if (error?.response?.status === 409) {
                     this.terminal.print('The email you provided is already in use.')
                     this.resetProgram()
                     await this.setProgram(Main.name);
