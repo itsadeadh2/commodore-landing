@@ -39,10 +39,8 @@ export default class Contact extends BaseClass {
             const { data } = await this.http.post('/api/contact', {
                 email: email
             })
-            console.log('not Catched!')
-            this.terminal.print('foobaz')
+            this.terminal.print(data.message)
         } catch (error) {
-            console.log('Catched!')
             this.terminal.print('There was an error when requesting contact information. Please try again later.')
             return;
         }

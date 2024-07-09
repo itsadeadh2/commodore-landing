@@ -2,6 +2,7 @@ import Terminal from "./terminal";
 import { Program } from "./programs/program"
 import ProgramsFactory from "./programsFactory"
 import Command from "./command"
+import {ReactElement} from "react";
 
 export default class ProgramsManager {
   private readonly terminal: Terminal;
@@ -38,7 +39,7 @@ export default class ProgramsManager {
     return this.currentProgram.handle(command);
   }
 
-  getHistory(): string[] {
+  getHistory(): (string | ReactElement)[] {
     return this.terminal.getHistory();
   }
 }

@@ -1,6 +1,5 @@
 import {BaseClass, Program} from "./program"
 import Command from "../command";
-import Help from './help'
 
 export default class Main extends BaseClass {
 

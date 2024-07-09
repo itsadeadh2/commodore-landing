@@ -1,13 +1,11 @@
-import React, { useState, useEffect, useRef, KeyboardEvent } from 'react';
+import React, {useState, useEffect, useRef, KeyboardEvent, ReactElement} from 'react';
 import './terminal.css';
-import useExecuteCommand from './executor';
 import ProgramsManager from './programsManager';
 
 const TerminalManager: React.FC = () => {
   const [inputText, setInputText] = useState<string>('');
   const [executing, setExecuting] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { executeCommand } = useExecuteCommand();
   const hasMounted = useRef<boolean>(false);
   const manager = useRef<ProgramsManager | null>(null);
 
@@ -19,10 +17,14 @@ const TerminalManager: React.FC = () => {
     async function run() {
       // Focus the input field when the component mounts
       inputRef.current?.focus();
+      const initialCommand = 'help'
+      setInputText(initialCommand)
+      await manager.current?.execute(initialCommand);
+      setInputText('')
     }
     run();
     hasMounted.current = true;
-  }, [executeCommand]);
+  }, []);
 
   const handleKeyPress = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -32,7 +34,9 @@ const TerminalManager: React.FC = () => {
         return;
       }
       setExecuting(true);
-      await manager.current?.execute(inputText);
+      const originalText = inputText;
+      setInputText('');
+      await manager.current?.execute(originalText);
       setExecuting(false);
       setInputText('');
       event.preventDefault();
@@ -59,7 +63,7 @@ const TerminalManager: React.FC = () => {
           REACT APP SYSTEM  2024 @THIAGO BARBOSA
         </div>
         <br />
-        {manager.current?.getHistory().map((entry: string, index: number) => (
+        {manager.current?.getHistory().map((entry: string | ReactElement, index: number) => (
             <div key={index} className="command-history">
               {entry}
             </div>

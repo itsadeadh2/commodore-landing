@@ -1,10 +1,12 @@
-// src/TerminalManager.js
-class Terminal {
+import {ReactElement} from "react";
+
+export default class Terminal {
+  private commandHistory: (string | ReactElement)[];
   constructor() {
     this.commandHistory = [];
   }
 
-  print(text) {
+  print(text: string | ReactElement ) {
     this.commandHistory.push(text);
   }
 
@@ -16,5 +18,3 @@ class Terminal {
     return this.commandHistory;
   }
 }
-
-export default Terminal;
