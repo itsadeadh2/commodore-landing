@@ -8,6 +8,7 @@ import Commodore from "./programs/commodore"
 import Contact from "./programs/contact"
 import Login from "./programs/login";
 import Register from "./programs/register";
+import Hangman from "./programs/hangman"
 import { Program, setProgramCB } from "./programs/program";
 import axiosInstance from '../clients/http'
 
@@ -32,6 +33,7 @@ export default class ProgramsFactory {
         this.registerProgram(new Register(this.terminal, setProgram, axiosInstance))
         this.registerProgram(new Clear(this.terminal, setProgram))
         this.registerProgram(new Commodore(this.terminal, setProgram))
+        this.registerProgram(new Hangman(this.terminal, setProgram, axiosInstance))
         this.registerProgram(this.helpProgram);
     }
 
