@@ -1,34 +1,29 @@
-// src/Terminal.js
 import React, { useState, useEffect, useRef } from 'react';
 import './terminal.css';
-import { useSelector } from 'react-redux';
 import useExecuteCommand from './executor';
+import ProgramsManager from './programsManager'
 
 
-const Terminal = () => {
+const TerminalManager = () => {
     const [inputText, setInputText] = useState('');
     const [executing, setExecuting] = useState(false);
-    const [context, setContext] = useState('main');
     const inputRef = useRef(null);
     const { executeCommand } = useExecuteCommand();
-    const commandHistory = useSelector(state => state.commandHistory);
     const hasMounted = useRef(false);
+    const manager = useRef(new ProgramsManager());
 
     useEffect(() => {
         if (hasMounted.current) {
           return;
         }
         async function run() {
-
           // Focus the input field when the component mounts
           inputRef.current.focus();
-          let newContext = await executeCommand('help', context)
-          setContext(newContext);
         }
         run();
         hasMounted.current = true;
 
-    }, [executeCommand, context]);
+    }, [executeCommand]);
 
     const handleKeyPress = async (event) => {
         if (event.key === 'Enter') {
@@ -38,8 +33,7 @@ const Terminal = () => {
               return;
             }
             setExecuting(true);
-            let newContext = await executeCommand(inputText, context)
-            setContext(newContext);
+            manager.current.execute(inputText);
             setExecuting(false);
             setInputText('');
             event.preventDefault();
@@ -66,7 +60,7 @@ const Terminal = () => {
                 REACT APP SYSTEM  2024 @THIAGO BARBOSA
             </div>
             <br />
-            {commandHistory.map((entry, index) => (
+            {manager.current.getHistory().map((entry, index) => (
                 <div key={index} className="command-history">
                     {entry}
                 </div>
@@ -86,4 +80,4 @@ const Terminal = () => {
     );
 };
 
-export default Terminal;
+export default TerminalManager;
