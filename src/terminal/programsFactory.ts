@@ -29,7 +29,7 @@ export default class ProgramsFactory {
         this.registerProgram(new Projects(this.terminal, setProgram))
         this.registerProgram(new About(this.terminal, setProgram))
         this.registerProgram(new Login(this.terminal, setProgram))
-        this.registerProgram(new Register(this.terminal, setProgram))
+        this.registerProgram(new Register(this.terminal, setProgram, axiosInstance))
         this.registerProgram(new Clear(this.terminal, setProgram))
         this.registerProgram(new Commodore(this.terminal, setProgram))
         this.registerProgram(this.helpProgram);

@@ -4,6 +4,7 @@ import {ReactElement} from "react";
 import Main from "./main";
 import Terminal from "../terminal";
 import {AxiosInstance} from "axios";
+import utils from "./utils"
 
 export default class Contact extends BaseClass {
     private http: AxiosInstance;
@@ -25,13 +26,8 @@ export default class Contact extends BaseClass {
         result.forEach((entry) => this.terminal.print(entry));
     }
 
-    isValidEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    }
-
     async handleEmailProvided(email: string) {
-        if (!this.isValidEmail(email)) {
+        if (!utils.isValidEmail(email)) {
             this.terminal.print("Invalid email.")
             return;
         }
