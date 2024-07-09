@@ -1,50 +1,54 @@
-import React, {useState, useEffect, useRef, KeyboardEvent, ReactElement} from 'react';
+import React, { Component, ReactElement, createRef, KeyboardEvent } from 'react';
 import './terminal.css';
 import ProgramsManager from './programsManager';
 
-const TerminalManager: React.FC = () => {
-  const [inputText, setInputText] = useState<string>('');
-  const [executing, setExecuting] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const hasMounted = useRef<boolean>(false);
-  const manager = useRef<ProgramsManager | null>(null);
+interface TerminalManagerState {
+  inputText: string;
+  executing: boolean;
+  hasMounted: boolean;
+}
 
-  useEffect(() => {
-    if (hasMounted.current) {
-      return;
-    }
-    manager.current = new ProgramsManager();
-    async function run() {
-      // Focus the input field when the component mounts
-      inputRef.current?.focus();
-      const initialCommand = 'help'
-      setInputText(initialCommand)
-      await manager.current?.execute(initialCommand);
-      setInputText('')
-    }
-    run();
-    hasMounted.current = true;
-  }, []);
+class TerminalManager extends Component<{}, TerminalManagerState> {
+  private inputRef = createRef<HTMLInputElement>();
+  private manager: ProgramsManager | null = null;
 
-  const handleKeyPress = async (event: KeyboardEvent<HTMLInputElement>) => {
+  constructor(props: {}) {
+    super(props);
+    this.state = {
+      inputText: '',
+      executing: false,
+      hasMounted: false,
+    };
+  }
+
+  async componentDidMount() {
+    if (this.state.hasMounted) return;
+    this.manager = new ProgramsManager();
+    const initialCommand = 'help';
+    this.setState({ inputText: initialCommand });
+    this.inputRef.current?.focus();
+    await this.manager.execute(initialCommand);
+    this.setState({ inputText: '', hasMounted: true });
+  }
+
+  handleKeyPress = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       // Process the command and get the response
-      if (executing) {
+      if (this.state.executing) {
         event.preventDefault();
         return;
       }
-      setExecuting(true);
-      const originalText = inputText;
-      setInputText('');
-      await manager.current?.execute(originalText);
-      setExecuting(false);
-      setInputText('');
+      this.setState({ executing: true });
+      const originalText = this.state.inputText;
+      this.setState({ inputText: '' });
+      await this.manager?.execute(originalText);
+      this.setState({ executing: false, inputText: '' });
       event.preventDefault();
     } else if (event.key === 'Backspace') {
-      setInputText(inputText.slice(0, -1));
+      this.setState({ inputText: this.state.inputText.slice(0, -1) });
       event.preventDefault();
     } else if (event.key.length === 1) {
-      setInputText(inputText + event.key);
+      this.setState({ inputText: this.state.inputText + event.key });
       event.preventDefault();
     }
 
@@ -54,33 +58,35 @@ const TerminalManager: React.FC = () => {
     }
   };
 
-  return (
-      <div className="terminal" onClick={() => inputRef.current?.focus()}>
-        <div className="header">
-          ***   COMMODORE LANDING   ***
+  render() {
+    return (
+        <div className="terminal" onClick={() => this.inputRef.current?.focus()}>
+          <div className="header">
+            ***   COMMODORE LANDING   ***
+          </div>
+          <div className="header">
+            REACT APP SYSTEM  2024 @THIAGO BARBOSA
+          </div>
+          <br />
+          {this.manager?.getHistory().map((entry: string | ReactElement, index: number) => (
+              <div key={index} className="command-history">
+                {entry}
+              </div>
+          ))}
+          <div>
+            &gt; {this.state.inputText}<span className="blinking-cursor"></span>
+          </div>
+          <input
+              type="text"
+              className="hidden-input"
+              ref={this.inputRef}
+              value=""
+              onKeyDown={this.handleKeyPress}
+              onChange={() => {}} // Prevent React warning
+          />
         </div>
-        <div className="header">
-          REACT APP SYSTEM  2024 @THIAGO BARBOSA
-        </div>
-        <br />
-        {manager.current?.getHistory().map((entry: string | ReactElement, index: number) => (
-            <div key={index} className="command-history">
-              {entry}
-            </div>
-        ))}
-        <div>
-          &gt; {inputText}<span className="blinking-cursor"></span>
-        </div>
-        <input
-            type="text"
-            className="hidden-input"
-            ref={inputRef}
-            value=""
-            onKeyDown={handleKeyPress}
-            onChange={() => {}} // Prevent React warning
-        />
-      </div>
-  );
-};
+    );
+  }
+}
 
 export default TerminalManager;
