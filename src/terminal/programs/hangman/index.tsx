@@ -17,7 +17,7 @@ export default class Index extends BaseClass {
     private readonly http: AxiosInstance;
     private states: Map<EHangmanState, IStateHandler>;
     private currentState: IStateHandler;
-    private defaultState: IStateHandler;
+    private readonly defaultState: IStateHandler;
 
     constructor(terminal: Terminal, setProgram: setProgramCB, http: AxiosInstance) {
         super(terminal, setProgram);

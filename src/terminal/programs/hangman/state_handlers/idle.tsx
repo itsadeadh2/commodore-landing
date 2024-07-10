@@ -25,7 +25,7 @@ export default class IdleHandler extends StateHandler {
     private instructions = () => {
         this.terminal.print("Available commands: ")
         if (this.enableContinue) {
-            this.terminal.print("'continue' - resume previous game")
+            this.terminal.print("continue - resume previous game")
         }
         this.terminal.print("start - start a new game")
         this.terminal.print("leaderboard - see the leaderboard for this game")
