@@ -6,3 +6,4 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 - Docs are **[here](https://itsadeadh2.github.io/commodore-docs/)**
+- See **[live](https://commodore.itsadeadh2.com/)**
