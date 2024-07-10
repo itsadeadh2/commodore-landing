@@ -32,6 +32,6 @@ export default class Commodore extends BaseClass {
     }
 
     get help(): string | ReactElement {
-        return `${this.entrypoint} - see more information about this terminal :)`
+        return `${this.entrypoint} - see more information about this terminal`
     }
 }
