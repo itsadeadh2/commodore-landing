@@ -10,6 +10,7 @@ interface TerminalManagerState {
 
 class TerminalManager extends Component<{}, TerminalManagerState> {
   private inputRef = createRef<HTMLInputElement>();
+  private scrollableDivRef = createRef<HTMLDivElement>();
   private manager: ProgramsManager | null = null;
 
   constructor(props: {}) {
@@ -19,9 +20,16 @@ class TerminalManager extends Component<{}, TerminalManagerState> {
       executing: false,
       hasMounted: false,
     };
+    this.handleScroll = this.handleScroll.bind(this);
+    this.scrollByAmount = this.scrollByAmount.bind(this);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('wheel', this.handleScroll);
   }
 
   async componentDidMount() {
+    window.addEventListener('wheel', this.handleScroll);
     if (this.state.hasMounted) return;
     this.manager = new ProgramsManager();
     const initialCommand = 'help';
@@ -30,6 +38,16 @@ class TerminalManager extends Component<{}, TerminalManagerState> {
     await this.manager.execute(initialCommand);
     this.setState({ inputText: '', hasMounted: true });
   }
+
+  handleScroll = (event: WheelEvent) => {
+    const { deltaY } = event;
+    this.scrollByAmount(deltaY)
+  }
+  scrollByAmount = (amount: number) => {
+    if (this.scrollableDivRef.current) {
+      this.scrollableDivRef.current.scrollBy({ top: amount, behavior: 'auto' });
+    }
+  };
 
   handleKeyPress = async (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -67,23 +85,25 @@ class TerminalManager extends Component<{}, TerminalManagerState> {
           <div className="header">
             REACT APP SYSTEM  2024 @THIAGO BARBOSA
           </div>
-          <br />
-          {this.manager?.getHistory().map((entry: string | ReactElement, index: number) => (
-              <div key={index} className="command-history">
-                {entry}
-              </div>
-          ))}
-          <div>
-            &gt; {this.state.inputText}<span className="blinking-cursor"></span>
+          <div ref={this.scrollableDivRef} className="terminal-content">
+            <br />
+            {this.manager?.getHistory().map((entry: string | ReactElement, index: number) => (
+                <div key={index} className="command-history">
+                  {entry}
+                </div>
+            ))}
+            <div>
+              &gt; {this.state.inputText}<span className="blinking-cursor"></span>
+            </div>
+            <input
+                type="text"
+                className="hidden-input"
+                ref={this.inputRef}
+                value=""
+                onKeyDown={this.handleKeyPress}
+                onChange={() => {}} // Prevent React warning
+            />
           </div>
-          <input
-              type="text"
-              className="hidden-input"
-              ref={this.inputRef}
-              value=""
-              onKeyDown={this.handleKeyPress}
-              onChange={() => {}} // Prevent React warning
-          />
         </div>
     );
   }
