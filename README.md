@@ -1,4 +1,4 @@
-# Commodore Landing #
+# ![icon](./public/favicon.ico) Commodore Landing #
 
 ---
 [![Deploy to GitHub Pages](https://github.com/itsadeadh2/commodore-landing/actions/workflows/deploy.yml/badge.svg)](https://github.com/itsadeadh2/commodore-landing/actions/workflows/deploy.yml)
