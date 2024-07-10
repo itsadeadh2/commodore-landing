@@ -13,7 +13,6 @@ const axiosInstance: AxiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use((config) => {
   const csrfToken = Cookies.get('csrf_access_token'); // Retrieve the CSRF token from cookies
-  console.log('DEBUGING: CSRF TOKEN (REMOVE THIS LATER)', csrfToken)
   if (csrfToken) {
     config.headers['X-CSRF-TOKEN'] = csrfToken;
   }
