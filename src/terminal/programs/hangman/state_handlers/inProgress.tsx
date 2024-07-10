@@ -73,6 +73,11 @@ export default class InProgressHandler extends StateHandler {
             this.terminal.print("You can only guess one letter at a time.")
             return;
         }
+        const guessedLetters = this.gameData.masked_word.split('')
+        if (guessedLetters.includes(guess)) {
+            this.terminal.print("You already got that letter, try another one.")
+            return;
+        }
         try {
             this.gameData = await this.api.takeGuess(this.gameId, guess)
             await this.handleGuessResponse()
