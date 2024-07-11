@@ -1,10 +1,10 @@
-import {BaseClass, setProgramCB} from "../program"
+import {BaseProgram, setProgramCB} from "../program.base"
 import Command from "../../command";
 import {ReactElement} from "react";
 import Terminal from "../../terminal";
 import {AxiosInstance} from "axios";
-import {IStateHandler} from "./state_handlers/baseState";
-import {EHangmanState} from "./enums";
+import {IStateHandler} from "../state.base";
+import {EHangmanState} from "./types";
 import IdleHandler from "./state_handlers/idle";
 import Main from "../main";
 import InProgressHandler from "./state_handlers/inProgress";
@@ -13,7 +13,7 @@ import GameOverHandler from "./state_handlers/gameOver";
 import LeaderboardHandler from "./state_handlers/leaderboard";
 
 
-export default class Index extends BaseClass {
+export default class Hangman extends BaseProgram {
     private readonly http: AxiosInstance;
     private states: Map<EHangmanState, IStateHandler>;
     private currentState: IStateHandler;
@@ -37,7 +37,7 @@ export default class Index extends BaseClass {
         this.states.set(EHangmanState.LeaderBoard, leaderBoardState)
     }
 
-    private setState = async (state: EHangmanState) => {
+    private setState = async (state: number) => {
         if (state === EHangmanState.ExitGame) {
             this.terminal.print("Exiting game.")
 

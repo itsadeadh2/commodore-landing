@@ -1,14 +1,14 @@
 import Terminal from "./terminal";
-import { Program } from "./programs/program"
+import { ProgramBase } from "./programs/program.base"
 import ProgramsFactory from "./programsFactory"
 import Command from "./command"
 import {ReactElement} from "react";
 
 export default class ProgramsManager {
   private readonly terminal: Terminal;
-  private readonly programs: Map<string, Program>; // use a program factory
-  private currentProgram: Program;
-  private readonly defaultProgram: Program;
+  private readonly programs: Map<string, ProgramBase>; // use a program factory
+  private currentProgram: ProgramBase;
+  private readonly defaultProgram: ProgramBase;
 
 
   constructor() {

@@ -1,12 +1,21 @@
 import Command from "../../../command";
-import {StateHandler} from "./baseState";
-import {EHangmanState, GameStates} from "../enums";
+import {EHangmanState, GameStates} from "../types";
+import {setStateFn, StateHandler} from "../../state.base";
+import Terminal from "../../../terminal";
+import HangmanApi from "../hangmanApi";
 
 enum GameOverActions {
     exit = 'exit'
 }
 
 export default class GameOverHandler extends StateHandler {
+    private api: HangmanApi;
+
+    constructor(terminal: Terminal, api: HangmanApi, setState: setStateFn) {
+        super(terminal, setState)
+        this.api = api
+    }
+
     onEnter = async () => {
         const gameId = localStorage.getItem('hangmanCurrentGameId');
         if (!gameId) {

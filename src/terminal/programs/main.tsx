@@ -1,7 +1,7 @@
-import {BaseClass, Program} from "./program"
+import {BaseProgram, ProgramBase} from "./program.base"
 import Command from "../command";
 
-export default class Main extends BaseClass {
+export default class Main extends BaseProgram {
 
     private entrypointMapping: Map<string, string> = new Map();
 
@@ -16,7 +16,7 @@ export default class Main extends BaseClass {
         return;
     }
 
-    registerEntryPoint(program: Program): void {
+    registerEntryPoint(program: ProgramBase): void {
         this.entrypointMapping.set(program.entrypoint, program.constructor.name);
     }
 }

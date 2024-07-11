@@ -1,4 +1,4 @@
-import {GameData, ScoreData} from "./state_handlers/baseState"
+import {GameData, ScoreData} from "./types"
 import axios, {AxiosInstance} from "axios";
 
 export class AuthenticationError extends Error {}

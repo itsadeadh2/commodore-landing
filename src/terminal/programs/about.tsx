@@ -1,9 +1,9 @@
-import {BaseClass} from "./program"
+import {BaseProgram} from "./program.base"
 import Command from "../command";
 import {ReactElement} from "react";
 import Main from "./main";
 
-export default class About extends BaseClass {
+export default class About extends BaseProgram {
 
     async handle(command: Command): Promise<void> {
         this.terminal.print(`> ${command.original}`)

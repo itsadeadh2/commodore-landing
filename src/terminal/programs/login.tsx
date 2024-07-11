@@ -1,4 +1,4 @@
-import {BaseClass, setProgramCB} from "./program"
+import {BaseProgram, setProgramCB} from "./program.base"
 import Command from "../command";
 import {ReactElement} from "react";
 import Main from "./main";
@@ -12,7 +12,7 @@ enum loginSteps {
     WaitingForPassword
 }
 
-export default class Login extends BaseClass {
+export default class Login extends BaseProgram {
 
     private http: AxiosInstance;
     private givenEmail: string = "";

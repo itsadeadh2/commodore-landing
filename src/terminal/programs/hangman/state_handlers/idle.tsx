@@ -1,6 +1,8 @@
 import Command from "../../../command";
-import {StateHandler} from "./baseState";
-import {EHangmanState, GameStates} from "../enums";
+import {EHangmanState, GameStates} from "../types";
+import {setStateFn, StateHandler} from "../../state.base";
+import Terminal from "../../../terminal";
+import HangmanApi from "../hangmanApi";
 
 enum idleActions {
     empty = 'hangman',
@@ -12,7 +14,12 @@ enum idleActions {
 
 export default class IdleHandler extends StateHandler {
     private enableContinue: boolean = false;
+    private api: HangmanApi;
 
+    constructor(terminal: Terminal, api: HangmanApi, setState: setStateFn) {
+        super(terminal, setState)
+        this.api = api
+    }
 
     onEnter = async () => {
         await this.intro()

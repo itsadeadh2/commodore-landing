@@ -6,13 +6,13 @@ import { ReactElement } from "react";
 export type setProgramCB = (programName: string, command?: Command) => Promise<void>;
 
 
-export interface Program {
+export interface ProgramBase {
     handle(command: Command): Promise<void>
     get entrypoint(): string
     get help(): string | ReactElement
 }
 
-export class BaseClass implements Program {
+export abstract class BaseProgram implements ProgramBase {
     protected terminal: Terminal;
     protected setProgram: setProgramCB
 

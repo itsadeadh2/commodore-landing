@@ -1,9 +1,9 @@
-import {BaseClass, Program} from "./program"
+import {BaseProgram, ProgramBase} from "./program.base"
 import Command from "../command";
 import Main from './main'
 import {ReactElement} from "react";
 
-export default class Help extends BaseClass {
+export default class Help extends BaseProgram {
 
     private helpEntries: (string | ReactElement)[] = [];
     async handle(command: Command): Promise<void> {
@@ -18,7 +18,7 @@ export default class Help extends BaseClass {
         return 'help';
     }
 
-    registerHelp(program: Program) {
+    registerHelp(program: ProgramBase) {
         this.helpEntries.push(program.help);
     }
 

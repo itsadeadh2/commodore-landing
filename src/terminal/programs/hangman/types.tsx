@@ -1,3 +1,15 @@
+export type GameData = {
+    attempts_left: string,
+    masked_word: string,
+    status: string
+    id: string,
+}
+
+export type ScoreData = {
+    name: string,
+    score: number
+}
+
 export enum EHangmanState {
     Idle = 0,
     InProgress = 1,

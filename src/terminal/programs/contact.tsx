@@ -1,4 +1,4 @@
-import {BaseClass, setProgramCB} from "./program"
+import {BaseProgram, setProgramCB} from "./program.base"
 import Command from "../command";
 import {ReactElement} from "react";
 import Main from "./main";
@@ -6,7 +6,7 @@ import Terminal from "../terminal";
 import {AxiosInstance} from "axios";
 import utils from "./utils"
 
-export default class Contact extends BaseClass {
+export default class Contact extends BaseProgram {
     private http: AxiosInstance;
 
     constructor(terminal: Terminal, setProgram: setProgramCB, http: AxiosInstance) {

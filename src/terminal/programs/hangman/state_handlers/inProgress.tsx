@@ -1,6 +1,9 @@
 import Command from "../../../command";
-import {GameData, StateHandler} from "./baseState";
-import {EHangmanState, GameStates} from "../enums";
+import {GameData} from "../types";
+import {EHangmanState, GameStates} from "../types";
+import {setStateFn, StateHandler} from "../../state.base";
+import Terminal from "../../../terminal";
+import HangmanApi from "../hangmanApi";
 
 enum InProgressActions {
     empty = '',
@@ -11,6 +14,12 @@ enum InProgressActions {
 export default class InProgressHandler extends StateHandler {
     private gameId: string = '';
     private gameData: GameData = { attempts_left:'', status:'', masked_word:'', id:'' };
+    private api: HangmanApi;
+
+    constructor(terminal: Terminal, api: HangmanApi, setState: setStateFn) {
+        super(terminal, setState)
+        this.api = api
+    }
 
     onEnter = async () => {
         const gameId = localStorage.getItem('hangmanCurrentGameId')
@@ -91,8 +100,6 @@ export default class InProgressHandler extends StateHandler {
     private exitGame = async () => {
         await this.setState(EHangmanState.ExitGame)
     }
-
-
 
     handle = async (command: Command) => {
         const action = command.root;

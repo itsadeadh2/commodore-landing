@@ -1,4 +1,4 @@
-import {BaseClass, setProgramCB} from "./program"
+import {BaseProgram, setProgramCB} from "./program.base"
 import Command from "../command";
 import {ReactElement} from "react";
 import Main from "./main";
@@ -14,7 +14,7 @@ enum registerSteps {
     WaitingForConfirmation = 4
 }
 
-export default class Register extends BaseClass {
+export default class Register extends BaseProgram {
 
     private http: AxiosInstance;
     private givenName: string = "";
