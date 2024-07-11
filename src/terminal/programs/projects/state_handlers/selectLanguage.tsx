@@ -51,6 +51,7 @@ export default class SelectLanguageHandler extends StateHandler {
 
     private intro = () => {
         this.terminal.clear()
+        this.terminal.print("PROJECTS")
         this.terminal.print("node - See NodeJS projects")
         this.terminal.print("python - See python projects")
         this.terminal.print("bash - See bash scripting projects")
