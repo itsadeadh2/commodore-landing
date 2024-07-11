@@ -1,4 +1,4 @@
-import React, { Component, ReactElement, createRef, KeyboardEvent } from 'react';
+import React, { Component, createRef, KeyboardEvent } from 'react';
 import './terminal.css';
 import ProgramsManager from './programsManager';
 import Loading from './components/loading';
