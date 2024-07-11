@@ -90,7 +90,7 @@ export default class SelectLanguageHandler extends StateHandler {
                 await this.displayProjectsFor(action)
                 break;
             case idleActions.all:
-                await this.displayProjectsFor(action)
+                await this.displayProjectsFor('')
                 break;
             default:
                 this.unrecognizedCommand()
