@@ -35,8 +35,13 @@ export default class ProgramsManager {
   }
 
   async execute(inputText: string): Promise<void> {
-    const command = new Command(inputText);
-    return this.currentProgram.handle(command);
+    try {
+      const command = new Command(inputText);
+      return this.currentProgram.handle(command);
+    } catch (error) {
+      this.terminal.print("Unexpected error.")
+      return;
+    }
   }
 
   getHistory(): (string | ReactElement)[] {
