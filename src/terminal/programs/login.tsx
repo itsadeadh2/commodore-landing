@@ -25,7 +25,12 @@ export default class Login extends BaseProgram {
     }
 
     private async retrieveCsrf() {
-        await this.http.get('/login/csrf/')
+        try {
+            await this.http.get('/login/csrf/')
+        } catch (err) {
+            this.resetProgram()
+            await this.setProgram(Main.name)
+        }
     }
 
     private askForEmail() {
@@ -80,8 +85,8 @@ export default class Login extends BaseProgram {
 
         switch (this.currentStep) {
             case loginSteps.Idle:
-                this.askForEmail()
                 await this.retrieveCsrf()
+                this.askForEmail()
                 break;
 
             case loginSteps.WaitingForEmail:
