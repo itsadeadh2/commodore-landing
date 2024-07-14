@@ -27,7 +27,7 @@ export default class SelectLanguageHandler extends StateHandler {
     }
 
     private getProjects = async (language: string = '') => {
-        const {data} = await this.http.get(`/api/projects?language=${language}`)
+        const {data} = await this.http.get(`/projects/?language=${language}`)
         return data as project[];
     }
 

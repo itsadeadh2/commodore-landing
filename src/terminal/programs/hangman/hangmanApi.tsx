@@ -11,7 +11,7 @@ export default class HangmanApi {
 
     retrieveGame = async (gameId:string) => {
         try {
-            const { data } = await this.http.get(`/api/games/hangman/${gameId}`)
+            const { data } = await this.http.get(`/hangman/${gameId}`)
             return data as GameData;
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -25,7 +25,7 @@ export default class HangmanApi {
 
     takeGuess = async (gameId: string, guess: string) => {
         try {
-            const { data } = await this.http.post(`/api/games/hangman/${gameId}/guess`, {guess})
+            const { data } = await this.http.post(`/hangman/${gameId}/guess/`, {guess})
             return data as GameData;
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -39,7 +39,7 @@ export default class HangmanApi {
 
     createGame = async () => {
         try {
-            const { data } = await this.http.post('/api/games/hangman')
+            const { data } = await this.http.post('/hangman/')
             return data as GameData;
         } catch (error) {
             if (axios.isAxiosError(error)) {
@@ -52,7 +52,7 @@ export default class HangmanApi {
     }
 
     getLeaderBoard = async () => {
-        const { data } = await this.http.get('/api/games/hangman/leaderboard')
+        const { data } = await this.http.get('/scores/', {params: {filter: 'hangman'}})
         return data as ScoreData[]
     }
 }

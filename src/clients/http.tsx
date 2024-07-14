@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL as string || 'http://localhost:5000',
+  baseURL: process.env.REACT_APP_API_URL as string || 'http://localhost:8000',
   timeout: 7000, // Timeout after 7 seconds
   headers: {
     'Content-Type': 'application/json',
@@ -12,9 +12,9 @@ const axiosInstance: AxiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  const csrfToken = Cookies.get('csrf_access_token'); // Retrieve the CSRF token from cookies
+  const csrfToken = Cookies.get('csrftoken'); // Retrieve the CSRF token from cookies
   if (csrfToken) {
-    config.headers['X-CSRF-TOKEN'] = csrfToken;
+    config.headers['X-CSRFTOKEN'] = csrfToken;
   }
   return config;
 }, (error) => {

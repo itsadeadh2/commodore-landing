@@ -17,7 +17,7 @@ export default class LeaderboardHandler extends StateHandler {
         const scores = await this.api.getLeaderBoard();
         this.terminal.clear()
         scores.forEach((score) => {
-            this.terminal.print(`${score.name} - ${score.score}`)
+            this.terminal.print(`${score.player} - ${score.score}`)
         })
         this.terminal.print("Type anything to continue")
         return;

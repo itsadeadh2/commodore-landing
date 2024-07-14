@@ -88,8 +88,8 @@ export default class Register extends BaseProgram {
             return
         }
         try {
-            await this.http.post('/api/user/register', {
-                name: this.givenName,
+            await this.http.post('/register/', {
+                first_name: this.givenName,
                 email: this.givenEmail,
                 password: this.givenPassword
             })

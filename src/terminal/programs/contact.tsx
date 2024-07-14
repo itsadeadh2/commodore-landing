@@ -32,7 +32,7 @@ export default class Contact extends BaseProgram {
             return;
         }
         try {
-            const { data } = await this.http.post('/api/contact', {
+            const { data } = await this.http.post('/contacts/', {
                 email: email
             })
             this.terminal.print(data.message)

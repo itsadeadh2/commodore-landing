@@ -24,6 +24,10 @@ export default class Login extends BaseProgram {
         this.http = http;
     }
 
+    private async retrieveCsrf() {
+        await this.http.get('/login/csrf/')
+    }
+
     private askForEmail() {
         this.terminal.print('Please input your email:')
         this.currentStep = loginSteps.WaitingForEmail
@@ -53,7 +57,7 @@ export default class Login extends BaseProgram {
     private attemptLogin = async (password: string) => {
         this.givenPassword = password
         try {
-            await this.http.post('/api/user/login', {
+            await this.http.post('/login/csrf/', {
                 email: this.givenEmail,
                 password: this.givenPassword
             })
@@ -77,6 +81,7 @@ export default class Login extends BaseProgram {
         switch (this.currentStep) {
             case loginSteps.Idle:
                 this.askForEmail()
+                await this.retrieveCsrf()
                 break;
 
             case loginSteps.WaitingForEmail:

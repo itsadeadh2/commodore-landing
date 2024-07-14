@@ -6,7 +6,7 @@ export type GameData = {
 }
 
 export type ScoreData = {
-    name: string,
+    player: string,
     score: number
 }
 
