@@ -1,4 +1,4 @@
-import {GameData, ScoreData} from "./types"
+import {GameData, ScoreData, GameStates} from "./types"
 import axios, {AxiosInstance} from "axios";
 
 export class AuthenticationError extends Error {}
@@ -13,6 +13,20 @@ export default class HangmanApi {
         try {
             const { data } = await this.http.get(`/hangman/${gameId}`)
             return data as GameData;
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                if (error?.response?.status === 401) {
+                    throw new AuthenticationError()
+                }
+            }
+            throw error;
+        }
+    }
+
+    retrieveInProgressGames = async () => {
+        try {
+            const { data } = await this.http.get(`/hangman/`, { params: { "status": GameStates.InProgress } })
+            return data as GameData[];
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 if (error?.response?.status === 401) {

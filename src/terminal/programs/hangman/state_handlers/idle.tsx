@@ -41,21 +41,19 @@ export default class IdleHandler extends StateHandler {
 
     private checkExistingGame = async () => {
         const gameId = localStorage.getItem('hangmanCurrentGameId')
-        if (!!gameId) {
-            try {
-                const game = await this.api.retrieveGame(gameId);
-                console.log('game', game)
-                if (game.status === GameStates.InProgress) {
-                    console.log('enabling continue')
-                    this.enableContinue = true;
-                    return;
-                }
-            } catch(error) {
+        try {
+            const games = await this.api.retrieveInProgressGames();
+            if (games.length < 1) {
                 this.enableContinue = false;
                 return;
             }
+            localStorage.setItem('hangmanCurrentGameId', games[0].id)
+            this.enableContinue = true;
+            return;
+        } catch(error) {
+            this.enableContinue = false;
+            return;
         }
-        this.enableContinue = false;
     }
 
     private intro = async () => {
