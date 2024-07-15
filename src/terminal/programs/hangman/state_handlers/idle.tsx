@@ -40,7 +40,6 @@ export default class IdleHandler extends StateHandler {
     }
 
     private checkExistingGame = async () => {
-        const gameId = localStorage.getItem('hangmanCurrentGameId')
         try {
             const games = await this.api.retrieveInProgressGames();
             if (games.length < 1) {
