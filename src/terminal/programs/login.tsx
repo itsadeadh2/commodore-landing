@@ -27,9 +27,9 @@ export default class Login extends BaseProgram {
     private async retrieveCsrf() {
         try {
             await this.http.get('/login/csrf/')
+            return true
         } catch (err) {
-            this.resetProgram()
-            await this.setProgram(Main.name)
+            return false
         }
     }
 
@@ -85,7 +85,11 @@ export default class Login extends BaseProgram {
 
         switch (this.currentStep) {
             case loginSteps.Idle:
-                await this.retrieveCsrf()
+                const csrfRetrieved = await this.retrieveCsrf()
+                if (!csrfRetrieved) {
+                    this.terminal.print("Failed to connect to backend service. Please try again later.")
+                    return await this.setProgram(Main.name)
+                }
                 this.askForEmail()
                 break;
 

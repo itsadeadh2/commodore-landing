@@ -35,7 +35,7 @@ export default class Contact extends BaseProgram {
             const { data } = await this.http.post('/contacts/', {
                 email: email
             })
-            this.terminal.print(data.message)
+            this.terminal.print(`Successfully received your contact request. You should receive an email soon on ${email}`)
         } catch (error) {
             this.terminal.print('There was an error when requesting contact information. Please try again later.')
             return;
