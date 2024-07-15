@@ -18,10 +18,9 @@ export default class Contact extends BaseProgram {
         const result = [
             'Here is my basic contact information:',
             (<span>E-Mail: <a href="mailto:itsadeadh2@gmail.com">itsadeadh2@gmail.com</a></span>),
-            (<span>GitHub: <a href="https://github.com/itsadeadh2" target="_blank" rel="noreferrer">https://github.com/itsadeadh2</a></span>),
             (<span>LinkedIn: <a href="https://www.linkedin.com/in/barbosathiagodev/" target="_blank" rel="noreferrer">https://www.linkedin.com/in/barbosathiagodev/</a></span>),
             (<br/>),
-            (<span>For more information, such as WhatsApp and Resume, please use <strong>"contact youremail@email.com"</strong></span>),
+            (<span>For more information, such as WhatsApp and Resume in PDF format, please use <strong>"contact youremail@email.com"</strong></span>),
         ]
         result.forEach((entry) => this.terminal.print(entry));
     }

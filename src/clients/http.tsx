@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 
 
 const axiosInstance: AxiosInstance = axios.create({
-  baseURL: process.env.REACT_APP_API_URL as string || 'http://localhost:8000',
+  baseURL: process.env.REACT_APP_API_URL as string || 'https://api.itsadeadh2.com',
   timeout: 7000, // Timeout after 7 seconds
   headers: {
     'Content-Type': 'application/json',

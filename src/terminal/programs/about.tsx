@@ -14,7 +14,9 @@ export default class About extends BaseProgram {
             'Stack: NodeJS, Python, GoLang, React',
             'Additional Tools: Docker, AWS, DEVOPS',
             'Hobbies: Playing retro games',
-            (<span>Linkedin: <a href={"https://www.linkedin.com/in/barbosathiagodev/"} target={"_blank"} rel={"noreferrer"}>Thiago Barbosa</a></span>)
+            (<span>Resume: <a href="https://resume.itsadeadh2.com" target="_blank" rel="noreferrer">https://resume.itsadeadh2.com</a></span>),
+            (<br/>),
+            (<span>For contact information, use <strong>"contact youremail@email.com"</strong></span>),
         ]
         response.forEach((entry) => this.terminal.print(entry))
         await this.setProgram(Main.name)
