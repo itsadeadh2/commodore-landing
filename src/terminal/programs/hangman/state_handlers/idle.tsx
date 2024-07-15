@@ -1,5 +1,5 @@
 import Command from "../../../command";
-import {EHangmanState, GameStates} from "../types";
+import {EHangmanState} from "../types";
 import {setStateFn, StateHandler} from "../../state.base";
 import Terminal from "../../../terminal";
 import HangmanApi from "../hangmanApi";
